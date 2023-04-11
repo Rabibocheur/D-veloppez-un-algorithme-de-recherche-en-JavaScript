@@ -32,13 +32,69 @@ header h1 {
 /* dropdown */
 .select-tags {
   max-width: 500px;
+  margin-right: 20px;
+  align-self: baseline;
 }
 
 .select-tags-btn {
-  width: 150px;
+  height: 50px;
+  position: relative;
 }
 
-.select-tags-bloc {
+.select-tags-btn.close {
+  transition: 0.3s 0.3s all !important;
+  width: 150px;
+  border-radius: 5px;
+}
+
+.select-tags-btn.open {
+  transition: 0s all !important;
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+}
+
+.select-tags-btn__text {
+  display: block;
+}
+
+.select-tags-btn__search {
+  width: 100%;
+  display: none;
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.select-tags-icon {
+  position: absolute;
+  right: 10px;
+  transition: 0.5s all;
+}
+
+.select-tags-icon.rotate {
+  transform: rotate(180deg);
+}
+
+.select-tags-btn__search::placeholder {
+  color: white;
+}
+
+.select-tags-content {
+  color: white;
+  border-radius: 0 0 5px 5px;
+  transition: 0.3s max-height, 0.3s 0.3s max-width;
+  max-height: 0;
+  overflow: hidden;
+  max-width: 150px;
+}
+
+.select-tags-content[data-open="true"] {
+  max-height: 100px;
+  max-width: 500px;
+  transition: 0.3s 0.3s max-height, 0.3s max-width;
 }
 
 .select-tags-lists {

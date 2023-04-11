@@ -31,37 +31,121 @@
         <i class="fa-solid search_icon fa-magnifying-glass"></i>
       </div>
 
-      <div class="select-tags">
-        <button
-          type="button"
-          class="select-tags-btn btn btn-primary d-flex align-items-center justify-content-between"
-        >
-          <span>Ingrédients</span>
-          <span class="material-symbols-outlined"> keyboard_arrow_down </span>
-        </button>
-        <div class="select-tags-bloc">
-          <ul class="row mx-0 px-0 select-tags-lists">
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-            <li class="col-4 select-tags-list">Ingrédients</li>
-          </ul>
+      <section class="d-flex align-items-center">
+        <div class="select-tags close my-3">
+          <button
+            type="button"
+            class="select-tags-btn close btn btn-primary d-flex align-items-center justify-content-between px-0"
+          >
+            <span class="select-tags-btn__text px-3">Ingrédients</span>
+            <input
+              class="select-tags-btn__search px-3"
+              type="text"
+              placeholder="Rechercher un ingrédient"
+            />
+            <span class="material-symbols-outlined select-tags-icon"> keyboard_arrow_down </span>
+          </button>
+
+          <div class="select-tags-content bg-primary" data-open="false">
+            <ul class="select-tags-lists row mx-0 px-0">
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+            </ul>
+          </div>
         </div>
-      </div>
+
+        <div class="select-tags my-3">
+          <button
+            type="button"
+            class="select-tags-btn close btn btn-success d-flex align-items-center justify-content-between px-0"
+          >
+            <span class="select-tags-btn__text px-3">Appareils</span>
+            <input
+              class="select-tags-btn__search px-3"
+              type="text"
+              placeholder="Rechercher un ingrédient"
+            />
+            <span class="material-symbols-outlined select-tags-icon"> keyboard_arrow_down </span>
+          </button>
+
+          <div class="select-tags-content bg-success" data-open="false">
+            <ul class="select-tags-lists row mx-0 px-0">
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="select-tags my-3">
+          <button
+            type="button"
+            class="select-tags-btn close btn btn-danger d-flex align-items-center justify-content-between px-0"
+          >
+            <span class="select-tags-btn__text px-3">Ustensiles</span>
+            <input
+              class="select-tags-btn__search px-3"
+              type="text"
+              placeholder="Rechercher un ingrédient"
+            />
+            <span class="material-symbols-outlined select-tags-icon"> keyboard_arrow_down </span>
+          </button>
+
+          <div class="select-tags-content bg-danger" data-open="false">
+            <ul class="select-tags-lists row mx-0 px-0">
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+              <li class="col-4 select-tags-list">Ingrédients</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
       <div class="row">
         <div class="col">
@@ -83,5 +167,6 @@
       integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
       crossorigin="anonymous"
     ></script>
+    <script src="./scripts/utils/selectTags.js"></script>
   </body>
 </html>
