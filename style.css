@@ -31,8 +31,9 @@ header h1 {
 
 /* dropdown */
 .select-tags {
-  max-width: 500px;
+  max-width: 600px;
   margin-right: 20px;
+  margin-bottom: 15px;
   align-self: baseline;
 }
 
@@ -92,9 +93,10 @@ header h1 {
 }
 
 .select-tags-content[data-open="true"] {
-  max-height: 100px;
-  max-width: 500px;
+  max-height: 500px;
+  max-width: 600px;
   transition: 0.3s 0.3s max-height, 0.3s max-width;
+  overflow: auto;
 }
 
 .select-tags-lists {
@@ -102,9 +104,59 @@ header h1 {
 }
 
 /* cart recette */
+.card {
+  min-height: 380px;
+  max-height: 380px;
+  overflow: hidden;
+}
 
 .card-image {
-  height: 100px;
+  min-height: 150px;
   width: 100%;
   background-color: rgba(149, 149, 149, 0.746);
+}
+
+.card-title {
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-title-name {
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-title-time {
+  font-weight: 500;
+  min-width: 80px;
+  text-align: end;
+}
+
+.card-text {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-text-ingredient {
+  list-style: none;
+  padding-left: 0;
+  font-size: 12px;
+  max-width: 50%;
+}
+
+.card-text-ingredient span:nth-child(1) {
+  font-weight: bold;
+}
+
+.card-text-description {
+  font-size: 12px;
+  max-width: 45%;
+  height: 130px;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
