@@ -1,68 +1,66 @@
-export async function getReceipts() {
+export async function getReceipts(tags) {
   const response = await fetch("./data/receipts.json");
   const data = await response.json();
-  return data;
+
+  const filteredData = data.filter((recipe) => {
+    const ingredientsIncluded = tags.ingredients.every((ingredient) =>
+      recipe.ingredients.some((recipeIngredient) =>
+        recipeIngredient.ingredient.toLowerCase().includes(ingredient.toLowerCase())
+      )
+    );
+
+    const appliancesIncluded = tags.appliances.every((appliance) =>
+      recipe.appliance.toLowerCase().includes(appliance.toLowerCase())
+    );
+
+    const utensilsIncluded = tags.ustensils.every((utensil) =>
+      recipe.ustensils.some((recipeUtensil) =>
+        recipeUtensil.toLowerCase().includes(utensil.toLowerCase())
+      )
+    );
+
+    return ingredientsIncluded && appliancesIncluded && utensilsIncluded;
+  });
+
+  return filteredData;
 }
 
-export async function getIngredients() {
-  const response = await fetch("./data/receipts.json");
-  const data = await response.json();
-
+export async function getIngredients(receipts, tags) {
   let ingredients = new Set();
 
-  data.forEach((recipe) => {
+  receipts.forEach((recipe) => {
     recipe.ingredients.forEach((ingredient) => {
       ingredients.add(ingredient.ingredient);
     });
   });
 
-  let uniqueIngredients = [...ingredients];
+  let uniqueIngredients = [...ingredients].filter((ingredient) => !tags.includes(ingredient));
 
   return uniqueIngredients;
 }
 
-export async function getAppliances() {
-  const response = await fetch("./data/receipts.json");
-  const data = await response.json();
-
+export async function getAppliances(receipts, tags) {
   let appliances = new Set();
 
-  data.forEach((receipt) => {
+  receipts.forEach((receipt) => {
     appliances.add(receipt.appliance);
   });
 
-  let uniqueAppliances = [...appliances];
+  let uniqueAppliances = [...appliances].filter((appliance) => !tags.includes(appliance));
 
   return uniqueAppliances;
 }
 
-export async function getUstensils() {
-  const response = await fetch("./data/receipts.json");
-  const data = await response.json();
-
+export async function getUstensils(receipts, tags) {
   let ustensils = new Set();
 
-  data.forEach((receipt) => {
+  receipts.forEach((receipt) => {
     receipt.ustensils.forEach((ustensil) => {
       ustensils.add(ustensil);
     });
   });
 
-  let uniqueUstensils = [...ustensils];
+  let uniqueUstensils = [...ustensils].filter((ustensil) => !tags.includes(ustensil));
 
   return uniqueUstensils;
 }
-
-// export const getProfilePhotograph = async () => {
-//   const getUrl = window.location.search;
-//   const searchParams = new URLSearchParams(getUrl);
-//   const photographId = parseInt(searchParams.get("id"));
-
-//   const response = await fetch("./data/photographers.json");
-//   const data = await response.json();
-
-//   const photographer = data.photographers.filter((f) => f.id === photographId);
-//   const media = data.media.filter((f) => f.photographerId === photographId);
-
-//   return { photographer, media };
-// };

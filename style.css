@@ -32,8 +32,8 @@ header h1 {
 /* dropdown */
 .select-tags {
   max-width: 600px;
+  min-width: 150px;
   margin-right: 20px;
-  margin-bottom: 15px;
   align-self: baseline;
 }
 
@@ -56,10 +56,12 @@ header h1 {
 
 .select-tags-btn__text {
   display: block;
+  font-weight: 500;
 }
 
 .select-tags-btn__search {
   width: 100%;
+  min-width: 250px;
   display: none;
   background-color: transparent;
   border: none;
@@ -101,6 +103,33 @@ header h1 {
 
 .select-tags-lists {
   list-style: none;
+}
+
+.select-tags-list.btn {
+  color: white;
+  text-align: left;
+}
+
+.tags-selected {
+  display: flex;
+  flex-direction: row;
+}
+
+.tag-selected {
+  margin-top: 1rem;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.delete-tag {
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 20px !important;
 }
 
 /* cart recette */

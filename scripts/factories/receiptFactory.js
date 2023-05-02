@@ -1,5 +1,5 @@
 export const receiptFactory = (data) => {
-  const { name, ingredients, time, description, appliance, ustensils } = data;
+  const { name, ingredients, time, description } = data;
 
   const getReceiptCardDOM = () => {
     const col = document.createElement("div");
@@ -61,4 +61,35 @@ export const receiptFactory = (data) => {
   };
 
   return { getReceiptCardDOM };
+};
+
+export const tagsFactory = (type) => {
+  const insertTags = (items) => {
+    const tagsLists = document.querySelector(`.tags-lists-${type}`);
+    tagsLists.innerHTML = "";
+    for (const item of items) {
+      const col = document.createElement("li");
+      col.setAttribute("class", "col-4 select-tags-list btn");
+      col.setAttribute("data-type", type);
+      col.textContent = item;
+      tagsLists.appendChild(col);
+    }
+  };
+
+  const showSelectedTags = (value) => {
+    let color = "#0d6efd";
+    if (type == "appliances") color = "#198754";
+    else if (type == "ustensils") color = "#dc3545";
+
+    const contentTags = document.querySelector(`.${type}-tags-selected`);
+    const tag = document.createElement("div");
+    tag.setAttribute("class", "tag-selected");
+    tag.setAttribute("data-type", type);
+    tag.setAttribute("data-value", value);
+    tag.innerHTML = value + `<span class="material-symbols-outlined delete-tag">cancel</span>`;
+    tag.style.backgroundColor = color;
+    contentTags.appendChild(tag);
+  };
+
+  return { insertTags, showSelectedTags };
 };
