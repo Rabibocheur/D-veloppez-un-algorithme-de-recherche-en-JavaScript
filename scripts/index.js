@@ -1,27 +1,42 @@
-import { getReceipts, getIngredients, getAppliances, getUstensils } from "./api/index.js";
-import { receiptFactory, tagsFactory } from "./factories/receiptFactory.js";
+import { getIngredients, getAppliances, getUstensils } from "./filters.js";
+import { filterTags } from "./filters.js";
+import { recipeFactory, tagsFactory } from "./factories/DOMFactory.js";
 
-let receipts = [];
+let recipes = [];
 let tags = {
   ingredients: [],
   appliances: [],
   ustensils: [],
 };
 
-const displayReceipts = async () => {
-  const receiptsSection = document.querySelector(".receipts_section");
-  receiptsSection.innerHTML = "";
-  receipts.forEach((receipt) => {
-    const receiptModel = receiptFactory(receipt);
-    const userCardDOM = receiptModel.getReceiptCardDOM();
-    receiptsSection.appendChild(userCardDOM);
+let selectingTagCallback = (e) => selectingTag(e);
+let deletingTagCallback = (e) => deletingTag(e);
+
+// GET API RECIPES
+
+async function getRecipes() {
+  const response = await fetch("./data/recipes.json");
+  return await response.json();
+}
+
+// DISPLAY RECIPES AND TAGS
+
+const displayRecipes = () => {
+  const recipesSection = document.querySelector(".recipes_section");
+  recipesSection.innerHTML = "";
+  recipes.forEach((recipe) => {
+    const recipeModel = recipeFactory(recipe);
+    const userCardDOM = recipeModel.getRecipeCardDOM();
+    recipesSection.appendChild(userCardDOM);
   });
 };
 
-const displayTagsLists = async (items, type) => {
+const displayTagsLists = (items, type) => {
   const tagModel = tagsFactory(type);
   tagModel.insertTags(items);
 };
+
+// MANAGE TAGS LISTS
 
 const selectingTag = (event) => {
   const type = event.srcElement.dataset.type;
@@ -30,7 +45,8 @@ const selectingTag = (event) => {
     const tagModel = tagsFactory(type);
     tagModel.showSelectedTags(value);
     tags[type].push(value);
-    init();
+    removeEventListeners();
+    refreshDisplay();
   }
 };
 
@@ -41,7 +57,7 @@ const deletingTag = (event) => {
   if (index !== -1) {
     tags[type].splice(index, 1);
     event.target.parentElement.remove();
-    init();
+    refreshDisplay();
   }
 };
 
@@ -49,31 +65,54 @@ const searchTags = (event) => {
   const parentSearchElement = event.target.parentElement.parentElement;
   const contentListTags = parentSearchElement.querySelectorAll(".select-tags-list");
   contentListTags.forEach((el) => {
-    if (!el.innerText.includes(event.target.value)) {
+    if (!el.innerText.toLowerCase().includes(event.target.value.toLowerCase())) {
       el.style.display = "none";
     } else el.style.display = "inline-block";
   });
 };
 
-const eventSelectTags = () => {
+const refreshEventTags = () => {
   const tags = document.querySelectorAll(".select-tags-list");
-  tags.forEach((tag) => tag.addEventListener("click", (e) => selectingTag(e)));
+  tags.forEach((tag) => tag.addEventListener("click", selectingTagCallback));
 
   const deleteTags = document.querySelectorAll(".delete-tag");
-  deleteTags.forEach((tag) => tag.addEventListener("click", (e) => deletingTag(e)));
+  deleteTags.forEach((tag) => tag.addEventListener("click", deletingTagCallback));
+};
+
+const removeEventListeners = () => {
+  const tags = document.querySelectorAll(".select-tags-list");
+  tags.forEach((tag) => tag.removeEventListener("click", selectingTagCallback));
+
+  const deleteTags = document.querySelectorAll(".delete-tag");
+  deleteTags.forEach((tag) => tag.removeEventListener("click", deletingTagCallback));
+};
+
+// SEARCH PRINCIPAL BAR
+
+const eventSearch = () => {
+  // const search = document.getElementById("search");
+  // search.addEventListener("input", () => refreshDisplay());
 
   const searchInputs = document.querySelectorAll(".select-tags-btn__search");
   searchInputs.forEach((input) => input.addEventListener("input", (e) => searchTags(e)));
 };
 
-const init = async () => {
-  receipts = await getReceipts(tags);
-  displayReceipts();
+// INITIALIZING THE CALL OF FUNCTIONS
 
-  displayTagsLists(await getIngredients(receipts, tags.ingredients), "ingredients");
-  displayTagsLists(await getAppliances(receipts, tags.appliances), "appliances");
-  displayTagsLists(await getUstensils(receipts, tags.ustensils), "ustensils");
-  eventSelectTags();
+const refreshDisplay = async () => {
+  recipes = filterTags(await getRecipes(), tags);
+
+  displayRecipes();
+  displayTagsLists(getIngredients(recipes, tags.ingredients), "ingredients");
+  displayTagsLists(getAppliances(recipes, tags.appliances), "appliances");
+  displayTagsLists(getUstensils(recipes, tags.ustensils), "ustensils");
+
+  refreshEventTags();
+};
+
+const init = async () => {
+  refreshDisplay();
+  eventSearch();
 };
 
 init();

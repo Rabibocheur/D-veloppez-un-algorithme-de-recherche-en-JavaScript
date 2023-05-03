@@ -1,7 +1,7 @@
-export const receiptFactory = (data) => {
+export const recipeFactory = (data) => {
   const { name, ingredients, time, description } = data;
 
-  const getReceiptCardDOM = () => {
+  const getRecipeCardDOM = () => {
     const col = document.createElement("div");
     col.setAttribute("class", "col col-4 mb-4");
 
@@ -60,7 +60,7 @@ export const receiptFactory = (data) => {
     return col;
   };
 
-  return { getReceiptCardDOM };
+  return { getRecipeCardDOM };
 };
 
 export const tagsFactory = (type) => {
