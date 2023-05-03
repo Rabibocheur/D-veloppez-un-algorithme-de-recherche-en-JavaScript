@@ -1,22 +1,33 @@
-import { getReceipts, getIngredients, getAppliances, getUstensils } from "./api/index.js";
+import { getIngredients, getAppliances, getUstensils } from "./filters.js";
+import { filterTags, filterSearchBar } from "./filters.js";
 import { receiptFactory, tagsFactory } from "./factories/DOMFactory.js";
 
-let receipts = [];
+let recipes = [];
 let tags = {
   ingredients: [],
   appliances: [],
   ustensils: [],
 };
 
-// DISPLAY RECEIPTS AND TAGS
+let selectingTagCallback = (e) => selectingTag(e);
+let deletingTagCallback = (e) => deletingTag(e);
 
-const displayReceipts = () => {
-  const receiptsSection = document.querySelector(".receipts_section");
-  receiptsSection.innerHTML = "";
-  receipts.forEach((receipt) => {
+// GET API RECIPES
+
+async function getRecipes() {
+  const response = await fetch("./data/recipes.json");
+  return await response.json();
+}
+
+// DISPLAY RECIPES AND TAGS
+
+const displayRecipes = () => {
+  const recipesSection = document.querySelector(".recipes_section");
+  recipesSection.innerHTML = "";
+  recipes.forEach((receipt) => {
     const receiptModel = receiptFactory(receipt);
     const userCardDOM = receiptModel.getReceiptCardDOM();
-    receiptsSection.appendChild(userCardDOM);
+    recipesSection.appendChild(userCardDOM);
   });
 };
 
@@ -34,7 +45,8 @@ const selectingTag = (event) => {
     const tagModel = tagsFactory(type);
     tagModel.showSelectedTags(value);
     tags[type].push(value);
-    init();
+    removeEventListeners();
+    refreshDisplay();
   }
 };
 
@@ -59,37 +71,54 @@ const searchTags = (event) => {
   });
 };
 
-const eventTags = () => {
+const refreshEventTags = () => {
   const tags = document.querySelectorAll(".select-tags-list");
-  tags.forEach((tag) => tag.addEventListener("click", (e) => selectingTag(e)));
+  tags.forEach((tag) => tag.addEventListener("click", selectingTagCallback));
 
   const deleteTags = document.querySelectorAll(".delete-tag");
-  deleteTags.forEach((tag) => tag.addEventListener("click", (e) => deletingTag(e)));
+  deleteTags.forEach((tag) => tag.addEventListener("click", deletingTagCallback));
+};
+
+const removeEventListeners = () => {
+  const tags = document.querySelectorAll(".select-tags-list");
+  tags.forEach((tag) => tag.removeEventListener("click", selectingTagCallback));
+
+  const deleteTags = document.querySelectorAll(".delete-tag");
+  deleteTags.forEach((tag) => tag.removeEventListener("click", deletingTagCallback));
+};
+
+// SEARCH PRINCIPAL BAR
+
+const searchBar = (event) => {
+  console.log(event);
+  refreshDisplay();
+};
+
+const eventSearch = () => {
+  const search = document.getElementById("search");
+  search.addEventListener("input", (e) => searchBar(e));
 
   const searchInputs = document.querySelectorAll(".select-tags-btn__search");
   searchInputs.forEach((input) => input.addEventListener("input", (e) => searchTags(e)));
 };
 
-// SEARCH PRINCIPAL BAR
+// INITIALIZING THE CALL OF FUNCTIONS
 
-const principalSearch = (event) => {
-  console.log(event);
-};
+const refreshDisplay = async () => {
+  const tagfiltered = filterTags(await getRecipes(), tags);
+  recipes = filterSearchBar(tagfiltered);
 
-const eventSearchBar = () => {
-  const search = document.getElementById("search");
-  search.addEventListener("input", (e) => principalSearch(e));
+  displayRecipes();
+  displayTagsLists(getIngredients(recipes, tags.ingredients), "ingredients");
+  displayTagsLists(getAppliances(recipes, tags.appliances), "appliances");
+  displayTagsLists(getUstensils(recipes, tags.ustensils), "ustensils");
+
+  refreshEventTags();
 };
 
 const init = async () => {
-  receipts = await getReceipts(tags);
-  displayReceipts();
-
-  displayTagsLists(getIngredients(receipts, tags.ingredients), "ingredients");
-  displayTagsLists(getAppliances(receipts, tags.appliances), "appliances");
-  displayTagsLists(getUstensils(receipts, tags.ustensils), "ustensils");
-  eventTags();
-  eventSearchBar();
+  refreshDisplay();
+  eventSearch();
 };
 
 init();
