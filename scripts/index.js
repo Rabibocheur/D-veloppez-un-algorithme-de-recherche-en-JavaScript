@@ -57,7 +57,7 @@ const deletingTag = (event) => {
   if (index !== -1) {
     tags[type].splice(index, 1);
     event.target.parentElement.remove();
-    init();
+    refreshDisplay();
   }
 };
 
@@ -89,14 +89,9 @@ const removeEventListeners = () => {
 
 // SEARCH PRINCIPAL BAR
 
-const searchBar = (event) => {
-  console.log(event);
-  refreshDisplay();
-};
-
 const eventSearch = () => {
   const search = document.getElementById("search");
-  search.addEventListener("input", (e) => searchBar(e));
+  search.addEventListener("input", () => refreshDisplay());
 
   const searchInputs = document.querySelectorAll(".select-tags-btn__search");
   searchInputs.forEach((input) => input.addEventListener("input", (e) => searchTags(e)));

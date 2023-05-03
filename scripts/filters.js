@@ -38,31 +38,73 @@ export function getUstensils(recipes, tags) {
   return uniqueUstensils;
 }
 
-export const filterTags = (recipes, tags) => {
-  const filteredData = recipes.filter((recipe) => {
-    const ingredientsIncluded = tags.ingredients.every((ingredient) =>
-      recipe.ingredients.some((recipeIngredient) =>
-        recipeIngredient.ingredient.toLowerCase().includes(ingredient.toLowerCase())
-      )
-    );
+export function filterTags(recipes, tags) {
+  const filteredData = [];
 
-    const appliancesIncluded = tags.appliances.every((appliance) =>
-      recipe.appliance.toLowerCase().includes(appliance.toLowerCase())
-    );
+  for (let i = 0; i < recipes.length; i++) {
+    const recipe = recipes[i];
+    let ingredientsIncluded = true;
 
-    const ustensilsIncluded = tags.ustensils.every((ustensil) =>
-      recipe.ustensils.some((recipeUstensil) =>
-        recipeUstensil.toLowerCase().includes(ustensil.toLowerCase())
-      )
-    );
+    for (let j = 0; j < tags.ingredients.length; j++) {
+      const ingredient = tags.ingredients[j];
+      let ingredientFound = false;
 
-    return ingredientsIncluded && appliancesIncluded && ustensilsIncluded;
-  });
+      for (let k = 0; k < recipe.ingredients.length; k++) {
+        const recipeIngredient = recipe.ingredients[k];
+
+        if (recipeIngredient.ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
+          ingredientFound = true;
+          break;
+        }
+      }
+
+      if (!ingredientFound) {
+        ingredientsIncluded = false;
+        break;
+      }
+    }
+
+    let appliancesIncluded = true;
+
+    for (let j = 0; j < tags.appliances.length; j++) {
+      const appliance = tags.appliances[j];
+
+      if (!recipe.appliance.toLowerCase().includes(appliance.toLowerCase())) {
+        appliancesIncluded = false;
+        break;
+      }
+    }
+
+    let ustensilsIncluded = true;
+
+    for (let j = 0; j < tags.ustensils.length; j++) {
+      const ustensil = tags.ustensils[j];
+      let ustensilFound = false;
+
+      for (let k = 0; k < recipe.ustensils.length; k++) {
+        const recipeUstensil = recipe.ustensils[k];
+
+        if (recipeUstensil.toLowerCase().includes(ustensil.toLowerCase())) {
+          ustensilFound = true;
+          break;
+        }
+      }
+
+      if (!ustensilFound) {
+        ustensilsIncluded = false;
+        break;
+      }
+    }
+
+    if (ingredientsIncluded && appliancesIncluded && ustensilsIncluded) {
+      filteredData.push(recipe);
+    }
+  }
 
   return filteredData;
-};
+}
 
-export const filterSearchBar = (recipes) => {
+export function filterSearchBar(recipes) {
   const searchQuery = document.getElementById("search").value;
   const results = [];
 
@@ -89,4 +131,4 @@ export const filterSearchBar = (recipes) => {
   }
 
   return results;
-};
+}
