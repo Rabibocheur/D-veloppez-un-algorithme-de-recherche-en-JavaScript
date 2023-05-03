@@ -1,5 +1,5 @@
 import { getReceipts, getIngredients, getAppliances, getUstensils } from "./api/index.js";
-import { receiptFactory, tagsFactory } from "./factories/receiptFactory.js";
+import { receiptFactory, tagsFactory } from "./factories/DOMFactory.js";
 
 let receipts = [];
 let tags = {
@@ -8,7 +8,9 @@ let tags = {
   ustensils: [],
 };
 
-const displayReceipts = async () => {
+// DISPLAY RECEIPTS AND TAGS
+
+const displayReceipts = () => {
   const receiptsSection = document.querySelector(".receipts_section");
   receiptsSection.innerHTML = "";
   receipts.forEach((receipt) => {
@@ -18,10 +20,12 @@ const displayReceipts = async () => {
   });
 };
 
-const displayTagsLists = async (items, type) => {
+const displayTagsLists = (items, type) => {
   const tagModel = tagsFactory(type);
   tagModel.insertTags(items);
 };
+
+// MANAGE TAGS LISTS
 
 const selectingTag = (event) => {
   const type = event.srcElement.dataset.type;
@@ -49,13 +53,13 @@ const searchTags = (event) => {
   const parentSearchElement = event.target.parentElement.parentElement;
   const contentListTags = parentSearchElement.querySelectorAll(".select-tags-list");
   contentListTags.forEach((el) => {
-    if (!el.innerText.includes(event.target.value)) {
+    if (!el.innerText.toLowerCase().includes(event.target.value.toLowerCase())) {
       el.style.display = "none";
     } else el.style.display = "inline-block";
   });
 };
 
-const eventSelectTags = () => {
+const eventTags = () => {
   const tags = document.querySelectorAll(".select-tags-list");
   tags.forEach((tag) => tag.addEventListener("click", (e) => selectingTag(e)));
 
@@ -66,14 +70,26 @@ const eventSelectTags = () => {
   searchInputs.forEach((input) => input.addEventListener("input", (e) => searchTags(e)));
 };
 
+// SEARCH PRINCIPAL BAR
+
+const principalSearch = (event) => {
+  console.log(event);
+};
+
+const eventSearchBar = () => {
+  const search = document.getElementById("search");
+  search.addEventListener("input", (e) => principalSearch(e));
+};
+
 const init = async () => {
   receipts = await getReceipts(tags);
   displayReceipts();
 
-  displayTagsLists(await getIngredients(receipts, tags.ingredients), "ingredients");
-  displayTagsLists(await getAppliances(receipts, tags.appliances), "appliances");
-  displayTagsLists(await getUstensils(receipts, tags.ustensils), "ustensils");
-  eventSelectTags();
+  displayTagsLists(getIngredients(receipts, tags.ingredients), "ingredients");
+  displayTagsLists(getAppliances(receipts, tags.appliances), "appliances");
+  displayTagsLists(getUstensils(receipts, tags.ustensils), "ustensils");
+  eventTags();
+  eventSearchBar();
 };
 
 init();

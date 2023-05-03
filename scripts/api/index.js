@@ -13,19 +13,19 @@ export async function getReceipts(tags) {
       recipe.appliance.toLowerCase().includes(appliance.toLowerCase())
     );
 
-    const utensilsIncluded = tags.ustensils.every((utensil) =>
-      recipe.ustensils.some((recipeUtensil) =>
-        recipeUtensil.toLowerCase().includes(utensil.toLowerCase())
+    const ustensilsIncluded = tags.ustensils.every((ustensil) =>
+      recipe.ustensils.some((recipeUstensil) =>
+        recipeUstensil.toLowerCase().includes(ustensil.toLowerCase())
       )
     );
 
-    return ingredientsIncluded && appliancesIncluded && utensilsIncluded;
+    return ingredientsIncluded && appliancesIncluded && ustensilsIncluded;
   });
 
   return filteredData;
 }
 
-export async function getIngredients(receipts, tags) {
+export function getIngredients(receipts, tags) {
   let ingredients = new Set();
 
   receipts.forEach((recipe) => {
@@ -39,7 +39,7 @@ export async function getIngredients(receipts, tags) {
   return uniqueIngredients;
 }
 
-export async function getAppliances(receipts, tags) {
+export function getAppliances(receipts, tags) {
   let appliances = new Set();
 
   receipts.forEach((receipt) => {
@@ -51,7 +51,7 @@ export async function getAppliances(receipts, tags) {
   return uniqueAppliances;
 }
 
-export async function getUstensils(receipts, tags) {
+export function getUstensils(receipts, tags) {
   let ustensils = new Set();
 
   receipts.forEach((receipt) => {

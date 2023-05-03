@@ -14,6 +14,7 @@ const toggleSearchBar = (isOpen, btnText, btnSearch) => {
   if (isOpen) {
     btnText.style.display = "none";
     btnSearch.style.display = "block";
+    btnSearch.focus();
   } else {
     btnText.style.display = "block";
     btnSearch.style.display = "none";
