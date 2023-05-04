@@ -1,5 +1,5 @@
 import { getIngredients, getAppliances, getUstensils } from "./filters.js";
-import { filterTags, filterSearchBar } from "./filters.js";
+import { filterByTags, filterSearchBar } from "./filters.js";
 import { recipeFactory, tagsFactory } from "./factories/DOMFactory.js";
 
 let recipes = [];
@@ -100,7 +100,7 @@ const eventSearch = () => {
 // INITIALIZING THE CALL OF FUNCTIONS
 
 const refreshDisplay = async () => {
-  const tagfiltered = filterTags(await getRecipes(), tags);
+  const tagfiltered = filterByTags(await getRecipes(), tags);
   recipes = filterSearchBar(tagfiltered);
 
   displayRecipes();

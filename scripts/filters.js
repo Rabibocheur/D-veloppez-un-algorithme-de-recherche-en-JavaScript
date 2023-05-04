@@ -38,7 +38,26 @@ export const getUstensils = (recipes, tags) => {
   return uniqueUstensils;
 };
 
-export const filterTags = (recipes, tags) => {
+export function filterSearchBar(recipes) {
+  const searchQuery = document.getElementById("search").value;
+  return recipes.filter((recipe) => {
+    const recipeName = recipe.name.toLowerCase();
+    const recipeDescription = recipe.description.toLowerCase();
+    const recipeIngredients = recipe.ingredients.map((ingredient) =>
+      ingredient.ingredient.toLowerCase()
+    );
+
+    const recipeIngredientsText = recipeIngredients.join(" ");
+
+    return (
+      recipeName.includes(searchQuery) ||
+      recipeDescription.includes(searchQuery) ||
+      recipeIngredientsText.includes(searchQuery)
+    );
+  });
+}
+
+export const filterByTags = (recipes, tags) => {
   const filteredData = recipes.filter((recipe) => {
     const ingredientsIncluded = tags.ingredients.every((ingredient) =>
       recipe.ingredients.some((recipeIngredient) =>
@@ -60,8 +79,4 @@ export const filterTags = (recipes, tags) => {
   });
 
   return filteredData;
-};
-
-export const filterSearchBar = (recipes) => {
-  return recipes;
 };
