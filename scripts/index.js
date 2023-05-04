@@ -1,5 +1,5 @@
 import { getIngredients, getAppliances, getUstensils } from "./filters.js";
-import { filterTags, filterSearchBar } from "./filters.js";
+import { filterByTags, filterSearchBar } from "./filters.js";
 import { receiptFactory, tagsFactory } from "./factories/DOMFactory.js";
 
 let recipes = [];
@@ -45,7 +45,6 @@ const selectingTag = (event) => {
     const tagModel = tagsFactory(type);
     tagModel.showSelectedTags(value);
     tags[type].push(value);
-    removeEventListeners();
     refreshDisplay();
   }
 };
@@ -79,7 +78,7 @@ const refreshEventTags = () => {
   deleteTags.forEach((tag) => tag.addEventListener("click", deletingTagCallback));
 };
 
-const removeEventListeners = () => {
+const removeEventTags = () => {
   const tags = document.querySelectorAll(".select-tags-list");
   tags.forEach((tag) => tag.removeEventListener("click", selectingTagCallback));
 
@@ -100,7 +99,7 @@ const eventSearch = () => {
 // INITIALIZING THE CALL OF FUNCTIONS
 
 const refreshDisplay = async () => {
-  const tagfiltered = filterTags(await getRecipes(), tags);
+  const tagfiltered = filterByTags(await getRecipes(), tags);
   recipes = filterSearchBar(tagfiltered);
 
   displayRecipes();
@@ -108,6 +107,7 @@ const refreshDisplay = async () => {
   displayTagsLists(getAppliances(recipes, tags.appliances), "appliances");
   displayTagsLists(getUstensils(recipes, tags.ustensils), "ustensils");
 
+  removeEventTags();
   refreshEventTags();
 };
 
